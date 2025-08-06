@@ -2,6 +2,7 @@
 
 import { Link } from "@tanstack/react-router";
 import { BackgroundGradient } from "./ui/background-grandient";
+import IngredientsBadge from "./IngredientsBadge";
 
 type Meal = {
   idMeal: string;
@@ -128,12 +129,7 @@ export function MealOfTheDayCard() {
             <h1 className="text-2xl font-bold">Main Ingredient</h1>
             <div className="flex flex-wrap gap-2 my-4">
               {getIngredients(data.meals[0]).map((item, index) => (
-                <div
-                  key={index}
-                  className="inline-flex bg-blue-300 dark:bg-blue-800 rounded-[22px] px-3 py-1 text-md sm:text-sm"
-                >
-                  <h3 className="font-semibold">{item}</h3>
-                </div>
+                <IngredientsBadge item ={item} key ={index} />
               ))}
             </div>
 

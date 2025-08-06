@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import { Separator } from "../components/ui/separator";
 
 export default function Footer() {
@@ -13,9 +14,9 @@ export default function Footer() {
     <Separator orientation="vertical" />
     {/* Center - Links */}
     <div className="flex space-x-4 mb-4 sm:mb-0">
-      <a href="#" className="hover:text-blue-500 transition">Home</a>
-      <a href="#" className="hover:text-blue-500 transition">About</a>
-      <a href="#" className="hover:text-blue-500 transition">Contact</a>
+      <Link to='/about' className="hover:text-blue-500 transition">About</Link>
+      <Link to="/" className="hover:text-blue-500 transition">Contact</Link>
+      <Link to="/" className="hover:text-blue-500 transition">Home</Link>
     </div>
     <Separator orientation="vertical"/>
     {/* Right Side - Copyright */}
