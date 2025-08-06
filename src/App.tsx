@@ -1,11 +1,9 @@
 import "./App.css";
+import Footer from "./components/Footer";
 import Intro from "./components/Intro";
 import { MealOfTheDayCard } from "./components/MealOfTheDay";
-import Navbar from "./components/Navbar";
 import SearchBar from "./components/SearchBar";
 import SearchResult from "./components/SearchResult";
-import { ThemeProvider } from "./components/ThemeProvider";
-
 function App() {
   const meals = {
     meals: [
@@ -43,13 +41,13 @@ function App() {
   };
 
   return (
-    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <Navbar />
+    < >
       <Intro />
       <SearchBar />
       <SearchResult meals={meals.meals} />
       <MealOfTheDayCard />
-    </ThemeProvider>
+      <Footer />
+    </>
   );
 }
 

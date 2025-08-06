@@ -1,6 +1,5 @@
-import {
-  CookingPot,
-} from "lucide-react";
+// src/components/Navbar.tsx
+import { CookingPot } from "lucide-react";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -9,20 +8,17 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "./ui/navigation-menu";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "./ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { ModeToggle } from "./ModeToggle";
 import { Separator } from "./ui/separator";
 import { Button } from "./ui/button";
 import type { JSX } from "react";
 import { cn } from "../lib/utils";
+import { Link } from "@tanstack/react-router";
 
-// Type definitions
+// Types
 type SimpleSubItem = { href: string; label: string; description?: string };
-type IconSubItem = { href: string; label: string; icon: "BookOpenIcon" | "LifeBuoyIcon" | "InfoIcon" };
+type IconSubItem = { href: string; label: string; icon: string };
 
 type NavigationLink =
   | {
@@ -35,33 +31,27 @@ type NavigationLink =
       submenu: true;
       type: "simple" | "description" | "icon";
       items: SimpleSubItem[];
-    }
-  | {
-      label: string;
-      submenu: false;
-      type: "icon";
-      items: IconSubItem[];
     };
 
 const navigationLinks: NavigationLink[] = [
-  { href: "#", label: "Home", submenu: false },
+  { href: "/", label: "Home", submenu: false },
   {
     label: "Categories",
     submenu: true,
-    type: "simple",
+    type: "description",
     items: [
       {
-        href: "#",
+        href: "/components",
         label: "Components",
         description: "Browse all components in the library.",
       },
       {
-        href: "#",
+        href: "/docs",
         label: "Documentation",
         description: "Learn how to use the library.",
       },
       {
-        href: "#",
+        href: "/templates",
         label: "Templates",
         description: "Pre-built layouts for common use cases.",
       },
@@ -72,23 +62,22 @@ const navigationLinks: NavigationLink[] = [
     submenu: true,
     type: "simple",
     items: [
-      { href: "#", label: "American" },
-      { href: "#", label: "British" },
-      { href: "#", label: "Canadian" },
-      { href: "#", label: "Chinese" },
+      { href: "/area/american", label: "American" },
+      { href: "/area/british", label: "British" },
+      { href: "/area/canadian", label: "Canadian" },
+      { href: "/area/chinese", label: "Chinese" },
     ],
   },
-  { href: "#", label: "About", submenu: false },
+  { href: "/about", label: "About", submenu: false },
 ];
 
 export default function Navbar(): JSX.Element {
-
   return (
     <header className="border-b px-4 md:px-6 dark:bg-black dark:text-white">
       <div className="flex h-16 items-center justify-between gap-4">
         {/* Left Side */}
         <div className="flex items-center gap-2">
-          {/* Mobile Menu Button */}
+          {/* Mobile Menu */}
           <Popover>
             <PopoverTrigger asChild>
               <Button
@@ -96,7 +85,6 @@ export default function Navbar(): JSX.Element {
                 variant="ghost"
                 size="icon"
               >
-                {/* Hamburger Icon */}
                 <svg
                   className="pointer-events-none"
                   width={16}
@@ -108,18 +96,9 @@ export default function Navbar(): JSX.Element {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 >
-                  <path
-                    d="M4 12L20 12"
-                    className="origin-center -translate-y-[7px] transition-all duration-300 ease-[cubic-bezier(.5,.85,.25,1.1)] group-aria-expanded:translate-y-0 group-aria-expanded:rotate-[315deg]"
-                  />
-                  <path
-                    d="M4 12H20"
-                    className="origin-center transition-all duration-300 ease-[cubic-bezier(.5,.85,.25,1.8)] group-aria-expanded:rotate-45"
-                  />
-                  <path
-                    d="M4 12H20"
-                    className="origin-center translate-y-[7px] transition-all duration-300 ease-[cubic-bezier(.5,.85,.25,1.1)] group-aria-expanded:translate-y-0 group-aria-expanded:rotate-[135deg]"
-                  />
+                  <path d="M4 12L20 12" />
+                  <path d="M4 12H20" />
+                  <path d="M4 12H20" />
                 </svg>
               </Button>
             </PopoverTrigger>
@@ -140,20 +119,17 @@ export default function Navbar(): JSX.Element {
                           <ul>
                             {link.items.map((item, itemIndex) => (
                               <li key={itemIndex}>
-                                <NavigationMenuLink
-                                  href={item.href}
-                                  className="py-1.5"
-                                >
+                                <Link to={item.href} className="py-1.5 block">
                                   {item.label}
-                                </NavigationMenuLink>
+                                </Link>
                               </li>
                             ))}
                           </ul>
                         </>
                       ) : (
-                        <NavigationMenuLink href={""} className="py-1.5">
+                        <Link to={link.href} className="py-1.5 block">
                           {link.label}
-                        </NavigationMenuLink>
+                        </Link>
                       )}
                       {index < navigationLinks.length - 1 && (
                         <Separator className="my-1" />
@@ -165,15 +141,15 @@ export default function Navbar(): JSX.Element {
             </PopoverContent>
           </Popover>
 
-          {/* Logo and Desktop Nav */}
+          {/* Logo + Desktop Menu */}
           <div className="flex items-center gap-6">
-            <a
-              href="#"
-              className="text-primary hover:text-primary/90 flex justify-between gap-2"
+            <Link
+              to="/"
+              className="text-primary hover:text-primary/90 flex items-center gap-2"
             >
               <CookingPot />
               <h3 className="font-bold hidden md:block">MAKE MY MEAL</h3>
-            </a>
+            </Link>
 
             <NavigationMenu className="max-md:hidden">
               <NavigationMenuList className="gap-2">
@@ -194,11 +170,12 @@ export default function Navbar(): JSX.Element {
                           >
                             {link.items.map((item, itemIndex) => (
                               <li key={itemIndex}>
-                                <NavigationMenuLink
-                                  href={item.href}
-                                  className="py-1.5"
+                                <Link
+                                  to={item.href}
+                                  className="block px-2 py-1.5"
                                 >
-                                  {link.type === "description" && item.description && (
+                                  {link.type === "description" &&
+                                  item.description ? (
                                     <div className="space-y-1">
                                       <div className="font-medium">
                                         {item.label}
@@ -207,23 +184,23 @@ export default function Navbar(): JSX.Element {
                                         {item.description}
                                       </p>
                                     </div>
-                                  )}
-
-                                  {link.type === "simple" && (
+                                  ) : (
                                     <div>{item.label}</div>
                                   )}
-                                </NavigationMenuLink>
+                                </Link>
                               </li>
                             ))}
                           </ul>
                         </NavigationMenuContent>
                       </>
                     ) : (
-                      <NavigationMenuLink
-                        href={""}
-                        className="text-primary hover:text-muted-foreground py-1.5 font-semibold"
-                      >
-                        {link.label}
+                      <NavigationMenuLink asChild>
+                        <Link
+                          to={link.href}
+                          className="text-primary hover:text-muted-foreground py-1.5 font-semibold"
+                        >
+                          {link.label}
+                        </Link>
                       </NavigationMenuLink>
                     )}
                   </NavigationMenuItem>
@@ -233,16 +210,16 @@ export default function Navbar(): JSX.Element {
           </div>
         </div>
 
-        {/* Right Side Buttons */}
+        {/* Right Buttons */}
         <div className="flex items-center gap-2">
           <div className="hidden md:block">
             <ModeToggle />
           </div>
           <Button asChild variant="outline" size="sm" className="text-sm">
-            <a href="#">Sign In</a>
+            <Link to="/signin">Sign In</Link>
           </Button>
           <Button asChild size="sm" className="text-sm">
-            <a href="#">Get Started</a>
+            <Link to="/signup">Get Started</Link>
           </Button>
         </div>
       </div>

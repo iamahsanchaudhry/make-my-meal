@@ -1,5 +1,6 @@
 "use client";
 
+import { Link } from "@tanstack/react-router";
 import { BackgroundGradient } from "./ui/background-grandient";
 
 type Meal = {
@@ -14,8 +15,8 @@ type Meal = {
   strYoutube: string;
   strSource: string;
   strImageSource: string | null;
-   strCreativeCommonsConfirmed: string  | null,
-   dateModified: string | null;
+  strCreativeCommonsConfirmed: string | null;
+  dateModified: string | null;
   [key: `strIngredient${number}`]: string;
   [key: `strMeasure${number}`]: string;
 };
@@ -144,13 +145,15 @@ export function MealOfTheDayCard() {
                 {step}
               </p>
             ))}
-
-            <button className="p-[3px] lg:m-2 relative rounded-[25px] lg:absolute lg:bottom-0 lg:right-0 lg:w-[300px]">
+            <Link
+              to={`/meals/${data.meals[0].idMeal}`}
+              className="p-[3px] lg:m-2 relative rounded-[25px] lg:absolute lg:bottom-0 lg:right-0 lg:w-[300px] inline-block"
+            >
               <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-[22px]" />
-              <div className="px-8 py-2 bg-black rounded-[22px] relative group transition duration-200 text-white hover:bg-transparent">
+              <div className="px-8 py-2 bg-black rounded-[22px] relative group transition duration-200 text-white hover:bg-transparent flex items-center justify-center text-center">
                 See More
               </div>
-            </button>
+            </Link>
           </div>
         </div>
       </BackgroundGradient>
