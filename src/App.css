@@ -1,0 +1,43 @@
+/* App.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Reset base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Global base styles */
+@layer base {
+  body {
+    @apply font-sans leading-relaxed text-black bg-white dark:text-white dark:bg-black;
+  }
+
+  #root {
+    @apply min-h-screen w-full flex flex-col bg-white dark:bg-black;
+  }
+
+  .navbar {
+    @apply w-full bg-white dark:bg-neutral-900 border-b border-gray-200 dark:border-gray-700 px-8 py-4 relative z-10;
+  }
+
+  main {
+    @apply flex-1 p-8;
+  }
+
+  footer {
+    @apply text-center py-4 text-sm text-gray-500;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply dark:text-white;
+  }
+
+  p, span, div {
+    @apply dark:text-white;
+  }
+}
+
