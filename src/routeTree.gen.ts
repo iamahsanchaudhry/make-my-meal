@@ -10,12 +10,17 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as _layoutRouteImport } from './routes/__layout'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as MealsMealIdRouteImport } from './routes/meals/$mealId'
 
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const _layoutRoute = _layoutRouteImport.update({
+  id: '/__layout',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -42,6 +47,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/__layout': typeof _layoutRoute
   '/about': typeof AboutRoute
   '/meals/$mealId': typeof MealsMealIdRoute
 }
@@ -50,11 +56,12 @@ export interface FileRouteTypes {
   fullPaths: '/' | '/about' | '/meals/$mealId'
   fileRoutesByTo: FileRoutesByTo
   to: '/' | '/about' | '/meals/$mealId'
-  id: '__root__' | '/' | '/about' | '/meals/$mealId'
+  id: '__root__' | '/' | '/__layout' | '/about' | '/meals/$mealId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  _layoutRoute: typeof _layoutRoute
   AboutRoute: typeof AboutRoute
   MealsMealIdRoute: typeof MealsMealIdRoute
 }
@@ -66,6 +73,13 @@ declare module '@tanstack/react-router' {
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/__layout': {
+      id: '/__layout'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof _layoutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -87,6 +101,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  _layoutRoute: _layoutRoute,
   AboutRoute: AboutRoute,
   MealsMealIdRoute: MealsMealIdRoute,
 }

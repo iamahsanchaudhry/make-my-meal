@@ -18,7 +18,6 @@ import { Link } from "@tanstack/react-router";
 
 // Types
 type SimpleSubItem = { href: string; label: string; description?: string };
-type IconSubItem = { href: string; label: string; icon: string };
 
 type NavigationLink =
   | {
@@ -81,7 +80,7 @@ export default function Navbar(): JSX.Element {
           <Popover>
             <PopoverTrigger asChild>
               <Button
-                className="group size-8 md:hidden font-bold text-white bg-neutral-900 dark:bg-white dark:text-black"
+                className="group size-8 md:hidden font-bold "
                 variant="ghost"
                 size="icon"
               >
@@ -103,9 +102,9 @@ export default function Navbar(): JSX.Element {
               </Button>
             </PopoverTrigger>
             <PopoverContent align="start" className="w-64 p-1 md:hidden">
-              <div className="flex items-center justify-between px-2 py-2 border-b border-border">
+              <div className=" flex items-center justify-between px-2 py-2 border-b border-border">
                 <h3 className="text-md font-bold">MAKE MY MEAL</h3>
-                <ModeToggle />
+                <ModeToggle/>
               </div>
               <NavigationMenu className="max-w-none *:w-full">
                 <NavigationMenuList className="flex-col items-start gap-0 md:gap-2">
@@ -151,13 +150,13 @@ export default function Navbar(): JSX.Element {
               <h3 className="font-bold hidden md:block">MAKE MY MEAL</h3>
             </Link>
 
-            <NavigationMenu className="max-md:hidden">
+            <NavigationMenu className=" max-md:hidden">
               <NavigationMenuList className="gap-2">
                 {navigationLinks.map((link, index) => (
                   <NavigationMenuItem key={index}>
                     {"submenu" in link && link.submenu ? (
                       <>
-                        <NavigationMenuTrigger className="bg-transparent px-2 py-1.5 font-semibold">
+                        <NavigationMenuTrigger className="text-foreground bg-transparent px-2 py-1.5 font-semibold">
                           {link.label}
                         </NavigationMenuTrigger>
                         <NavigationMenuContent className="z-50 p-1">
