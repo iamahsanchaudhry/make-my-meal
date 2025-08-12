@@ -2,20 +2,16 @@ import "./App.css";
 import Footer from "./components/Footer";
 import Intro from "./components/Intro";
 import { MealForYou } from "./components/MealForYou";
-import SearchBar from "./components/SearchBar";
-import SearchResult from "./components/SearchResult";
-function App() {
+import { Outlet } from "@tanstack/react-router";
 
-
+export default function App() {
   return (
     <>
-    <Intro />
+      <Intro />
       <MealForYou />
-      <SearchBar />
-      {/* <SearchResult meals={meals.meals} /> */}
+      <Outlet />
+
       <Footer />
     </>
   );
 }
-
-export default App;

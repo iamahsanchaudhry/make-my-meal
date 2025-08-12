@@ -1,5 +1,5 @@
 // src/components/Navbar.tsx
-import { CookingPot } from "lucide-react";
+import { CookingPot, Search } from "lucide-react";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -16,11 +16,8 @@ import { useEffect, useState, type JSX } from "react";
 import { cn } from "../lib/utils";
 import { Link } from "@tanstack/react-router";
 import { getAllAreas, getAllCategories } from "@/api/mealsAPI";
-import type { Category, MealCategory } from "@/types/categoriesType";
+import type { MealCategory } from "@/types/categoriesType";
 import type { MealArea } from "@/types/AreaType";
-
-// Types
-type SimpleSubItem = { href: string; label: string; description?: string };
 
 type NavigationLink =
   | {
@@ -36,7 +33,12 @@ type NavigationLink =
       itemArea: MealArea[];
     };
 
-export default function Navbar(): JSX.Element {
+    type SearchBarProps = {
+  onToggleSearch?: () => void; // optional callback, no params, no return
+  isSearchOpen ?: boolean; // optional callback with query
+};
+
+export default function Navbar({ onToggleSearch, isSearchOpen  }: SearchBarProps): JSX.Element {
   const [categories, setCategories] = useState<MealCategory[]>([]);
   const [areas, setAreas] = useState<MealArea[]>([]);
   const navigationLinks: NavigationLink[] = [
@@ -232,6 +234,14 @@ export default function Navbar(): JSX.Element {
 
         {/* Right Buttons */}
         <div className="flex items-center gap-2">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={onToggleSearch}
+            aria-label="Toggle Search"
+          >
+            <Search className={isSearchOpen ? "text-primary" : ""} />
+          </Button>
           <div className="hidden md:block">
             <ModeToggle />
           </div>

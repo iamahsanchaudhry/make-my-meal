@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as SearchQueryRouteImport } from './routes/search/$query'
 import { Route as MealsMealIdRouteImport } from './routes/meals/$mealId'
 import { Route as CategoryCategoryNameRouteImport } from './routes/category/$categoryName'
 import { Route as AreaAreaNameRouteImport } from './routes/area/$areaName'
@@ -23,6 +24,11 @@ const AboutRoute = AboutRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SearchQueryRoute = SearchQueryRouteImport.update({
+  id: '/search/$query',
+  path: '/search/$query',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MealsMealIdRoute = MealsMealIdRouteImport.update({
@@ -47,6 +53,7 @@ export interface FileRoutesByFullPath {
   '/area/$areaName': typeof AreaAreaNameRoute
   '/category/$categoryName': typeof CategoryCategoryNameRoute
   '/meals/$mealId': typeof MealsMealIdRoute
+  '/search/$query': typeof SearchQueryRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -54,6 +61,7 @@ export interface FileRoutesByTo {
   '/area/$areaName': typeof AreaAreaNameRoute
   '/category/$categoryName': typeof CategoryCategoryNameRoute
   '/meals/$mealId': typeof MealsMealIdRoute
+  '/search/$query': typeof SearchQueryRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -62,6 +70,7 @@ export interface FileRoutesById {
   '/area/$areaName': typeof AreaAreaNameRoute
   '/category/$categoryName': typeof CategoryCategoryNameRoute
   '/meals/$mealId': typeof MealsMealIdRoute
+  '/search/$query': typeof SearchQueryRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -71,6 +80,7 @@ export interface FileRouteTypes {
     | '/area/$areaName'
     | '/category/$categoryName'
     | '/meals/$mealId'
+    | '/search/$query'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -78,6 +88,7 @@ export interface FileRouteTypes {
     | '/area/$areaName'
     | '/category/$categoryName'
     | '/meals/$mealId'
+    | '/search/$query'
   id:
     | '__root__'
     | '/'
@@ -85,6 +96,7 @@ export interface FileRouteTypes {
     | '/area/$areaName'
     | '/category/$categoryName'
     | '/meals/$mealId'
+    | '/search/$query'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -93,6 +105,7 @@ export interface RootRouteChildren {
   AreaAreaNameRoute: typeof AreaAreaNameRoute
   CategoryCategoryNameRoute: typeof CategoryCategoryNameRoute
   MealsMealIdRoute: typeof MealsMealIdRoute
+  SearchQueryRoute: typeof SearchQueryRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -109,6 +122,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/search/$query': {
+      id: '/search/$query'
+      path: '/search/$query'
+      fullPath: '/search/$query'
+      preLoaderRoute: typeof SearchQueryRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/meals/$mealId': {
@@ -141,6 +161,7 @@ const rootRouteChildren: RootRouteChildren = {
   AreaAreaNameRoute: AreaAreaNameRoute,
   CategoryCategoryNameRoute: CategoryCategoryNameRoute,
   MealsMealIdRoute: MealsMealIdRoute,
+  SearchQueryRoute: SearchQueryRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

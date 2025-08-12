@@ -1,31 +1,21 @@
 
 import { Card } from "@/components/ui/card";
+import type { Meal } from "@/types/meal";
+import { Link } from "@tanstack/react-router";
 import type { JSX } from "react";
 
-type Meal = {
-  strMeal: string;
-  strMealThumb: string;
-  strCategory: string;
-  strArea: string;
-  strYoutube: string;
-  [key: `strIngredient${number}`]: string | undefined;
-  [key: `strMeasure${number}`]: string | undefined;
-};
-
-interface MealCardProps {
-  meal: Meal;
-}
-
-export default function MealCard({ meal }: MealCardProps): JSX.Element {
+export default function MealCard({ meal }: { meal: Meal }): JSX.Element {
   const ingredients: string[] = [];
 
-  for (let i = 1; i <= 8; i++) {
-    const ingredient = meal[`strIngredient${i}`];
-    const measure = meal[`strMeasure${i}`];
-    if (ingredient && ingredient.trim() !== "") {
-      ingredients.push(`${measure} ${ingredient}`);
-    }
+for (let i = 1; i <= 20; i++) {
+  const ingredient = meal[`strIngredient${i}` as keyof Meal] as string | undefined;
+  const measure = meal[`strMeasure${i}` as keyof Meal] as string | undefined;
+
+  if (ingredient && ingredient.trim() !== "") {
+    ingredients.push(`${measure ?? ""} ${ingredient}`.trim());
   }
+}
+
 
   return (
   <Card className="flex flex-col sm:flex-row w-full max-w-[760px] rounded-[22px] overflow-hidden shadow-md bg-white dark:bg-black">
@@ -62,14 +52,13 @@ export default function MealCard({ meal }: MealCardProps): JSX.Element {
 
       {/* Button at Bottom Right */}
       <div className="flex justify-end mt-4 sm:mt-0">
-        <a
-          href={meal.strYoutube}
-          target="_blank"
+        <Link
+          to={`/meals/${meal.idMeal}`}
           rel="noopener noreferrer"
           className="px-4 py-2 rounded-md border text-black dark:text-white border-neutral-300 font-semibold bg-blue-300 dark:bg-blue-800 text-sm hover:-translate-y-1 transform transition duration-200 hover:shadow-md"
         >
           See More
-        </a>
+        </Link>
       </div>
     </div>
   </Card>

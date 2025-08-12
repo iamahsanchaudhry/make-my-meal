@@ -1,4 +1,4 @@
-import type { Meal } from "@/types/meal";
+import type { Meal, Meals } from "@/types/meal";
 import axiosInstance from "./axiosInstance";
 import type { Category, MealCategory } from "@/types/categoriesType";
 import type { MealArea } from "@/types/AreaType";
@@ -41,3 +41,14 @@ export const getCategoryMeals = async (category :string): Promise<CategoryMeal[]
   const res = await axiosInstance.get<{ meals: CategoryMeal[] }>(`filter.php?c=${category}`);
   return res.data.meals;
 };
+
+export const SearchMealsByFirstLetter = async (searchQ :string): Promise< Meals[]> => {
+  const res = await axiosInstance.get<{ meals: Meals[] }>(`/search.php?f=${searchQ}`);
+  return res.data.meals;
+};
+
+export const SearchMealsByName = async (searchQ :string): Promise< Meals[]> => {
+  const res = await axiosInstance.get<{ meals: Meals[] }>(`/search.php?s=${searchQ}`);
+  return res.data.meals;
+};
+
