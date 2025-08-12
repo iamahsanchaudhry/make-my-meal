@@ -1,4 +1,5 @@
 // src/routes/__root.tsx
+import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import SearchBar from "@/components/SearchBar";
 import { ThemeProvider } from "@/components/ThemeProvider";
@@ -14,7 +15,6 @@ export const Route = createRootRoute({
       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
         <Navbar
           onToggleSearch={() => setIsSearchOpen((prev) => !prev)}
-          isSearchOpen={isSearchOpen}
         />
 
         {/* Show search bar only when toggled */}
@@ -27,6 +27,7 @@ export const Route = createRootRoute({
         <hr />
         <Outlet />
         <TanStackRouterDevtools />
+        <Footer />
       </ThemeProvider>
     );
   },

@@ -34,11 +34,9 @@ type NavigationLink =
     };
 
     type SearchBarProps = {
-  onToggleSearch?: () => void; // optional callback, no params, no return
-  isSearchOpen ?: boolean; // optional callback with query
-};
+  onToggleSearch?: () => void; }
 
-export default function Navbar({ onToggleSearch, isSearchOpen  }: SearchBarProps): JSX.Element {
+export default function Navbar({ onToggleSearch  }: SearchBarProps): JSX.Element {
   const [categories, setCategories] = useState<MealCategory[]>([]);
   const [areas, setAreas] = useState<MealArea[]>([]);
   const navigationLinks: NavigationLink[] = [
@@ -235,12 +233,12 @@ export default function Navbar({ onToggleSearch, isSearchOpen  }: SearchBarProps
         {/* Right Buttons */}
         <div className="flex items-center gap-2">
           <Button
-            variant="ghost"
+            variant="outline"
             size="icon"
             onClick={onToggleSearch}
             aria-label="Toggle Search"
           >
-            <Search className={isSearchOpen ? "text-primary" : ""} />
+            <Search  />
           </Button>
           <div className="hidden md:block">
             <ModeToggle />
