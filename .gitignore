@@ -12,6 +12,7 @@ af9f117c-*
 e0688ba4-*
 ed06e2e5-*
 
+.env*
 node_modules
 dist
 dist-ssr

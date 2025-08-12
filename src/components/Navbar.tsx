@@ -12,9 +12,12 @@ import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { ModeToggle } from "./ModeToggle";
 import { Separator } from "./ui/separator";
 import { Button } from "./ui/button";
-import type { JSX } from "react";
+import { useEffect, useState, type JSX } from "react";
 import { cn } from "../lib/utils";
 import { Link } from "@tanstack/react-router";
+import { getAllAreas, getAllCategories } from "@/api/mealsAPI";
+import type { Category, MealCategory } from "@/types/categoriesType";
+import type { MealArea } from "@/types/AreaType";
 
 // Types
 type SimpleSubItem = { href: string; label: string; description?: string };
@@ -28,49 +31,49 @@ type NavigationLink =
   | {
       label: string;
       submenu: true;
-      type: "simple" | "description" | "icon";
-      items: SimpleSubItem[];
+      type: "category" | "area";
+      itemCategory: MealCategory[];
+      itemArea: MealArea[];
     };
 
-const navigationLinks: NavigationLink[] = [
-  { href: "/", label: "Home", submenu: false },
-  {
-    label: "Categories",
-    submenu: true,
-    type: "description",
-    items: [
-      {
-        href: "/components",
-        label: "Components",
-        description: "Browse all components in the library.",
-      },
-      {
-        href: "/docs",
-        label: "Documentation",
-        description: "Learn how to use the library.",
-      },
-      {
-        href: "/templates",
-        label: "Templates",
-        description: "Pre-built layouts for common use cases.",
-      },
-    ],
-  },
-  {
-    label: "Area",
-    submenu: true,
-    type: "simple",
-    items: [
-      { href: "/area/american", label: "American" },
-      { href: "/area/british", label: "British" },
-      { href: "/area/canadian", label: "Canadian" },
-      { href: "/area/chinese", label: "Chinese" },
-    ],
-  },
-  { href: "/about", label: "About", submenu: false },
-];
-
 export default function Navbar(): JSX.Element {
+  const [categories, setCategories] = useState<MealCategory[]>([]);
+  const [areas, setAreas] = useState<MealArea[]>([]);
+  const navigationLinks: NavigationLink[] = [
+    { href: "/", label: "Home", submenu: false },
+    {
+      label: "Categories",
+      submenu: true,
+      type: "category",
+      itemCategory: categories,
+      itemArea: [],
+    },
+    {
+      label: "Area",
+      submenu: true,
+      type: "area",
+      itemCategory: [],
+      itemArea: areas,
+    },
+    { href: "/about", label: "About", submenu: false },
+  ];
+  useEffect(() => {
+    getAllCategories()
+      .then((res) => {
+        setCategories(res);
+      })
+      .catch((error) => {
+        console.log("Error: " + error);
+      });
+    getAllAreas()
+      .then((res) => {
+        setAreas(res);
+      })
+      .catch((error) => {
+        console.log("Error: " + error);
+      });
+    console.log(navigationLinks);
+  }, []);
   return (
     <header className="border-b px-4 md:px-6 dark:bg-black dark:text-white">
       <div className="flex h-16 items-center justify-between gap-4">
@@ -104,7 +107,7 @@ export default function Navbar(): JSX.Element {
             <PopoverContent align="start" className="w-64 p-1 md:hidden">
               <div className=" flex items-center justify-between px-2 py-2 border-b border-border">
                 <h3 className="text-md font-bold">MAKE MY MEAL</h3>
-                <ModeToggle/>
+                <ModeToggle />
               </div>
               <NavigationMenu className="max-w-none *:w-full">
                 <NavigationMenuList className="flex-col items-start gap-0 md:gap-2">
@@ -115,14 +118,28 @@ export default function Navbar(): JSX.Element {
                           <div className="text-black font-bold px-2 py-1.5 text-md">
                             {link.label}
                           </div>
-                          <ul>
-                            {link.items.map((item, itemIndex) => (
-                              <li key={itemIndex}>
-                                <Link to={item.href} className="py-1.5 block">
-                                  {item.label}
-                                </Link>
-                              </li>
-                            ))}
+                          <ul className="max-h-48 overflow-y-auto px-2">
+                            {link.type === "category"
+                              ? link.itemCategory.map((item, itemIndex) => (
+                                  <li key={itemIndex}>
+                                    <Link to={""} className="py-1.5 block">
+                                      {item.strCategory}
+                                    </Link>
+                                  </li>
+                                ))
+                              : link.type === "area"
+                                ? link.itemArea.map((item, itemIndex) => (
+                                    <li key={itemIndex}>
+                                      <Link
+                                        to="/area/$areaName"
+                                        params={{ areaName: item.strArea }}
+                                        className="py-1.5 block"
+                                      >
+                                        {item.strArea}
+                                      </Link>
+                                    </li>
+                                  ))
+                                : null}
                           </ul>
                         </>
                       ) : (
@@ -153,42 +170,34 @@ export default function Navbar(): JSX.Element {
             <NavigationMenu className=" max-md:hidden">
               <NavigationMenuList className="gap-2">
                 {navigationLinks.map((link, index) => (
-                  <NavigationMenuItem key={index}>
+                  <NavigationMenuItem key={index} className="relative z-10">
                     {"submenu" in link && link.submenu ? (
                       <>
                         <NavigationMenuTrigger className="text-foreground bg-transparent px-2 py-1.5 font-semibold">
                           {link.label}
                         </NavigationMenuTrigger>
-                        <NavigationMenuContent className="z-50 p-1">
-                          <ul
-                            className={cn(
-                              link.type === "description"
-                                ? "min-w-64"
-                                : "min-w-48"
-                            )}
-                          >
-                            {link.items.map((item, itemIndex) => (
-                              <li key={itemIndex}>
-                                <Link
-                                  to={item.href}
-                                  className="block px-2 py-1.5"
-                                >
-                                  {link.type === "description" &&
-                                  item.description ? (
-                                    <div className="space-y-1">
-                                      <div className="font-medium">
-                                        {item.label}
-                                      </div>
-                                      <p className="text-muted-foreground text-xs">
-                                        {item.description}
-                                      </p>
-                                    </div>
-                                  ) : (
-                                    <div>{item.label}</div>
-                                  )}
-                                </Link>
-                              </li>
-                            ))}
+                        <NavigationMenuContent className="p-1 z-auto">
+                          <ul className={cn("h-52 overflow-y-auto min-w-64")}>
+                            {link.type === "category"
+                              ? link.itemCategory.map((item, itemIndex) => (
+                                  <li key={itemIndex}>
+                                    <Link to={""} className="block px-2 py-1.5">
+                                      <div>{item.strCategory}</div>
+                                    </Link>
+                                  </li>
+                                ))
+                              : link.itemArea.map((item, itemIndex) => (
+                                  <li key={itemIndex}>
+                                    <Link
+                                      to="/area/$areaName"
+                                      params={{ areaName: item.strArea }}
+                                      className="py-1.5 px-2 block"
+                                    >
+                                      <div>{item.strArea}</div>
+                                    </Link>
+                                  </li>
+                                ))}
+                            {}
                           </ul>
                         </NavigationMenuContent>
                       </>

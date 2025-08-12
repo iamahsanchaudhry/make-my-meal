@@ -47,7 +47,7 @@ export function MealForYou() {
     <div className="m-5">
       <BackgroundGradient className="rounded-[22px] m-1 p-0 sm:p-0 bg-white dark:bg-zinc-900">
         {meal?
-        <div className="flex flex-col md:flex-row items-center md:items-start gap-4 p-1">
+        <div className="flex flex-col md:flex-row items-center md:items-start gap-4 p-1 relative z-0">
           <img
             src={meal.strMealThumb}
             alt="food"

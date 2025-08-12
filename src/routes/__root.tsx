@@ -8,7 +8,6 @@ export const Route = createRootRoute({
   component: () => (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
         <Navbar />
-      
       <hr />
       <Outlet />
       <TanStackRouterDevtools />
