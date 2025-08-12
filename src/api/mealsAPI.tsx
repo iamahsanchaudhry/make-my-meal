@@ -2,7 +2,8 @@ import type { Meal } from "@/types/meal";
 import axiosInstance from "./axiosInstance";
 import type { Category, MealCategory } from "@/types/categoriesType";
 import type { MealArea } from "@/types/AreaType";
-import type { AreaMeal, AreaMeals } from "@/types/AreaMealsType";
+import type { AreaMeal } from "@/types/AreaMealsType";
+import type { CategoryMeal } from "@/types/CategoryMealsType";
 
 
 
@@ -33,5 +34,10 @@ export const getAllAreas = async (): Promise<MealArea[]> => {
 
 export const getAreaMeals = async (area :string): Promise<AreaMeal[]> => {
   const res = await axiosInstance.get<{ meals: AreaMeal[] }>(`filter.php?a=${area}`);
+  return res.data.meals;
+};
+
+export const getCategoryMeals = async (category :string): Promise<CategoryMeal[]> => {
+  const res = await axiosInstance.get<{ meals: CategoryMeal[] }>(`filter.php?c=${category}`);
   return res.data.meals;
 };

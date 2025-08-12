@@ -1,5 +1,5 @@
 // src/routes/meals/$mealId.tsx
-import IngredientsBadge from "@/components/IngredientsBadge";
+import IngredientsBadge from "@/components/MealCards/IngredientsBadge";
 import { createFileRoute } from "@tanstack/react-router";
 import type { Meal } from "@/types/meal";
 import { useEffect, useState } from "react";

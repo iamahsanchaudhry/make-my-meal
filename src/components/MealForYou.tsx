@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { BackgroundGradient } from "./ui/background-grandient";
-import IngredientsBadge from "./IngredientsBadge";
+import IngredientsBadge from "./MealCards/IngredientsBadge";
 import { useEffect, useState } from "react";
 import { getMealOfTheDay } from "@/api/mealsAPI";
 import type { Meal } from "@/types/meal";

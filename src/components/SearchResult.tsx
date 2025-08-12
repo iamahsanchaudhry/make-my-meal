@@ -1,4 +1,4 @@
-import MealCard from "./MealCard";
+import MealCard from "./MealCards/MealCard";
 
 type Meal = {
   idMeal: string;

@@ -2,20 +2,20 @@ import { createFileRoute } from '@tanstack/react-router'
 import { useParams } from '@tanstack/react-router'
 import { useEffect, useState } from 'react'
 import CustomLoader from "@/components/Loader";
-import type { AreaMeal } from '@/types/AreaMealsType';
-import { getAreaMeals } from '@/api/mealsAPI';
+import {getCategoryMeals } from '@/api/mealsAPI';
 import AreaMealCard from '@/components/MealCards/AreaMealCard';
-export const Route = createFileRoute('/area/$areaName')({
-  component: AreaPage
+import type { CategoryMeal } from '@/types/CategoryMealsType';
+export const Route = createFileRoute('/category/$categoryName')({
+  component: CategoryPage
 })
 
-function AreaPage() {
-  const { areaName } = useParams({ from: '/area/$areaName' })
-  const [meals, setMeals] = useState<AreaMeal[]>()
+function CategoryPage() {
+  const { categoryName } = useParams({ from: '/category/$categoryName' })
+  const [meals, setMeals] = useState<CategoryMeal[]>()
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    getAreaMeals(areaName)
+    getCategoryMeals(categoryName)
     .then((res)=>{
         setMeals(res);
     })
@@ -24,13 +24,13 @@ function AreaPage() {
     }).finally(()=>{
         setLoading(false);
     })
-  }, [areaName])
+  }, [categoryName])
 
   if (loading) return <CustomLoader />;
 
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">{areaName} Meals</h1>
+      <h1 className="text-2xl font-bold mb-4">{categoryName} Meals</h1>
       {meals?.length === 0 ? (
         <p>No meals found.</p>
       ) : (

@@ -122,7 +122,13 @@ export default function Navbar(): JSX.Element {
                             {link.type === "category"
                               ? link.itemCategory.map((item, itemIndex) => (
                                   <li key={itemIndex}>
-                                    <Link to={""} className="py-1.5 block">
+                                    <Link
+                                      to="/category/$categoryName"
+                                      params={{
+                                        categoryName: item.strCategory,
+                                      }}
+                                      className="py-1.5 blockrounded-md hover:bg-slate-200"
+                                    >
                                       {item.strCategory}
                                     </Link>
                                   </li>
@@ -133,7 +139,7 @@ export default function Navbar(): JSX.Element {
                                       <Link
                                         to="/area/$areaName"
                                         params={{ areaName: item.strArea }}
-                                        className="py-1.5 block"
+                                        className="py-1.5 block rounded-md hover:bg-slate-200"
                                       >
                                         {item.strArea}
                                       </Link>
@@ -181,7 +187,13 @@ export default function Navbar(): JSX.Element {
                             {link.type === "category"
                               ? link.itemCategory.map((item, itemIndex) => (
                                   <li key={itemIndex}>
-                                    <Link to={""} className="block px-2 py-1.5">
+                                    <Link
+                                      to="/category/$categoryName"
+                                      params={{
+                                        categoryName: item.strCategory,
+                                      }}
+                                      className="block px-2 py-1.5 rounded-md hover:bg-slate-200"
+                                    >
                                       <div>{item.strCategory}</div>
                                     </Link>
                                   </li>
@@ -191,7 +203,7 @@ export default function Navbar(): JSX.Element {
                                     <Link
                                       to="/area/$areaName"
                                       params={{ areaName: item.strArea }}
-                                      className="py-1.5 px-2 block"
+                                      className="py-1.5 px-2 block rounded-md hover:bg-slate-200"
                                     >
                                       <div>{item.strArea}</div>
                                     </Link>
